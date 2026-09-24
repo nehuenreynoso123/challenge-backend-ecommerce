@@ -13,13 +13,13 @@ export class StockMovementOrmEntity {
   })
   variant!: VariantOrmEntity;
 
-  @Column({ type: 'enum', enum: MovementType })
+  @Column({ type: 'simple-enum', enum: MovementType })
   type!: MovementType;
 
   @Column({ type: 'int' })
   quantity!: number;
 
-  @Column({ type: 'enum', enum: MovementMotive })
+  @Column({ type: 'simple-enum', enum: MovementMotive })
   motive!: MovementMotive;
 
   @CreateDateColumn()
