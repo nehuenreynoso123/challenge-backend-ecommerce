@@ -88,4 +88,32 @@ describe('Stock Movimientos (e2e)', () => {
 
     expect(response.status).toBe(400);
   });
+
+  it('POST OUT con stock suficiente responde 201 y reduce el disponible', async () => {
+    const entrada = await request(app.getHttpServer()).post('/stock/movimientos').send({
+      sku: 'SKU-001',
+      type: 'in',
+      quantity: 5,
+      motive: 'compra',
+    });
+
+    expect(entrada.status).toBe(201);
+    const disponibleAntes = entrada.body.available as number;
+
+    const salida = await request(app.getHttpServer()).post('/stock/movimientos').send({
+      sku: 'SKU-001',
+      type: 'out',
+      quantity: 2,
+      motive: 'devolucion',
+    });
+
+    expect(salida.status).toBe(201);
+    expect(salida.body).toMatchObject({
+      sku: 'SKU-001',
+      type: 'out',
+      quantity: 2,
+      motive: 'devolucion',
+    });
+    expect(salida.body.available).toBe(disponibleAntes - 2);
+  });
 });
