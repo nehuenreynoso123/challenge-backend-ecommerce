@@ -1,4 +1,5 @@
-import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
+import type { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import request from 'supertest';
@@ -37,8 +38,8 @@ describe('Stock Movimientos (e2e)', () => {
     await app.close();
   });
 
-  it('POST /stock/movements (in) responde 201 con available', async () => {
-    const response = await request(app.getHttpServer()).post('/stock/movements').send({
+  it('POST /stock/movimientos (in) responde 201 con available', async () => {
+    const response = await request(app.getHttpServer()).post('/stock/movimientos').send({
       sku: 'SKU-001',
       type: 'in',
       quantity: 10,
@@ -56,7 +57,7 @@ describe('Stock Movimientos (e2e)', () => {
   });
 
   it('POST OUT que deja stock negativo responde 409', async () => {
-    const response = await request(app.getHttpServer()).post('/stock/movements').send({
+    const response = await request(app.getHttpServer()).post('/stock/movimientos').send({
       sku: 'SKU-002',
       type: 'out',
       quantity: 99,
@@ -67,7 +68,7 @@ describe('Stock Movimientos (e2e)', () => {
   });
 
   it('POST con SKU inexistente responde 404', async () => {
-    const response = await request(app.getHttpServer()).post('/stock/movements').send({
+    const response = await request(app.getHttpServer()).post('/stock/movimientos').send({
       sku: 'NO-EXISTE',
       type: 'in',
       quantity: 1,
@@ -78,7 +79,7 @@ describe('Stock Movimientos (e2e)', () => {
   });
 
   it('POST con quantity negativa responde 400', async () => {
-    const response = await request(app.getHttpServer()).post('/stock/movements').send({
+    const response = await request(app.getHttpServer()).post('/stock/movimientos').send({
       sku: 'SKU-001',
       type: 'in',
       quantity: -5,
