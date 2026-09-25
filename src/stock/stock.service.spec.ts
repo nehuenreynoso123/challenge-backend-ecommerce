@@ -11,6 +11,7 @@ describe('StockService', () => {
     save: jest.fn(),
     createQueryBuilder: jest.fn(),
   };
+
   const variantRepository = {
     findOne: jest.fn(),
   };
@@ -19,6 +20,7 @@ describe('StockService', () => {
     movementRepository.createQueryBuilder.mockReturnValue({
       select: jest.fn().mockReturnThis(),
       where: jest.fn().mockReturnThis(),
+      setParameters: jest.fn().mockReturnThis(),
       getRawOne: jest.fn().mockResolvedValue({ available: value }),
     });
   };
